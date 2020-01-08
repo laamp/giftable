@@ -1,5 +1,12 @@
 # Giftable
 
+## Tech stack used
+
+- Back-end: Flask
+- Database: Postgresql
+- ORM: SQLAlchemy
+- Migrations: Alembic
+
 ## Steps to run/work on this project
 
 ### Initial project setup
@@ -15,4 +22,7 @@
   - or install `pip install python-dotenv`
   - create file `.flaskenv`
   - add line `FLASK_APP=giftable.py` to `.flaskenv`
+- run `pip install flask-sqlalchemy` to install ORM
+- run `pip install flask-migrate` to install db migration framework
+- run `flask db migrate` to generate any migrations, then `flask db upgrade` to apply migrations
 - run `flask run` to start back-end

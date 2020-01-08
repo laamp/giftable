@@ -17,6 +17,13 @@ class User(db.Model):
     password = db.Column(db.String(256))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    gift_lists = db.relationship(
+        "GiftList",
+        secondary=users_to_giftlists,
+        lazy="subquery",
+        backref=db.backref("users", lazy=True),
+    )
+
     def __repr__(self):
         return "<User {}>".format(self.username)
 
@@ -30,5 +37,3 @@ class GiftList(db.Model):
     def __repr__(self):
         return "<GiftList {}>".format(self.title)
 
-
-# need giftlist <==> user association table to represent a user belonging to a list

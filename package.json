@@ -1,0 +1,26 @@
+{
+  "name": "giftable",
+  "version": "1.0.0",
+  "description": "## Tech stack used",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^5.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "frontend-install": "npm install --prefix frontend",
+    "frontend": "npm start --prefix frontend",
+    "dev": "concurrently \"flask run\" \"npm run frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laamp/giftable.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laamp/giftable/issues"
+  },
+  "homepage": "https://github.com/laamp/giftable#readme"
+}

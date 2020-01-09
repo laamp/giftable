@@ -26,3 +26,11 @@
 - run `pip install flask-migrate` to install db migration framework
 - run `flask db migrate` to generate any migrations, then `flask db upgrade` to apply migrations
 - run `flask run` to start back-end
+
+### Front-end setup
+
+- from within `frontend` run `npm install`
+
+### Test front-end and back-end
+
+- from root directory run `npm run dev`

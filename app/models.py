@@ -27,6 +27,13 @@ class User(db.Model):
     def __repr__(self):
         return "<User {}>".format(self.username)
 
+    def to_json(self):
+        return {
+            "username": self.username,
+            "email": self.email,
+            "created_at": self.created_at,
+        }
+
 
 class GiftList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,4 +43,10 @@ class GiftList(db.Model):
 
     def __repr__(self):
         return "<GiftList {}>".format(self.title)
+
+    def to_json(self):
+        return {
+            "title": self.title,
+            "created_at": self.created_at,
+        }
 

@@ -6,6 +6,7 @@
 - Database: Postgresql
 - ORM: SQLAlchemy
 - Migrations: Alembic
+- Front-end: React.js, Redux, Webpack
 
 ## Steps to run/work on this project
 

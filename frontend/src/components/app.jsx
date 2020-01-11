@@ -8,6 +8,9 @@ class App extends React.Component {
     this.state = {
       signedIn: false
     };
+
+    this.toggleAuthStatus = this.toggleAuthStatus.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   componentDidMount() {
@@ -17,22 +20,39 @@ class App extends React.Component {
           "1026168862240-it3jpjrqpt0ac6h1toovjkfu540qlt6h.apps.googleusercontent.com"
       });
 
-      window.gapi.load("signin2", function() {
-        // render a sign in button
-        // using this method will show Signed In if the user is already signed in
-        let opts = {
-          width: 200,
-          height: 50
-          // onSuccess: this.onSuccess.bind(this)
-        };
-        window.gapi.signin2.render("login-button", opts);
-      });
+      this.renderGoogleButton();
+
+      this.auth2.isSignedIn.listen(this.toggleAuthStatus);
     });
   }
 
-  getLoginMessage() {
+  renderGoogleButton() {
+    window.gapi.load("signin2", () => {
+      window.gapi.signin2.render("login-button");
+    });
+  }
+
+  toggleAuthStatus(signedIn) {
+    this.setState({ signedIn });
+
+    if (!signedIn) this.renderGoogleButton();
+  }
+
+  signOut() {
+    let currAuthInstance = window.gapi.auth2.getAuthInstance();
+    currAuthInstance.signOut().then(() => {
+      currAuthInstance.disconnect();
+    });
+  }
+
+  renderAuthButton() {
     if (this.state.signedIn) {
-      return <p>Hey, you're signed in.</p>;
+      return (
+        <>
+          <p>Hey, you're signed in.</p>
+          <button onClick={this.signOut}>Log out</button>
+        </>
+      );
     } else {
       return (
         <>
@@ -48,7 +68,7 @@ class App extends React.Component {
       <div className="app">
         <h1>Title goes here</h1>
 
-        {this.getLoginMessage()}
+        {this.renderAuthButton()}
       </div>
     );
   }

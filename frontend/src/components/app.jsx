@@ -26,9 +26,19 @@ class App extends React.Component {
     });
   }
 
+  getProfileInfo(user) {
+    const profile = user.getBasicProfile();
+    console.log(`Name: ${profile.getName()}, Email: ${profile.getEmail()}`);
+    console.log(`ID token: ${user.getAuthResponse().id_token}`);
+  }
+
   renderGoogleButton() {
     window.gapi.load("signin2", () => {
-      window.gapi.signin2.render("login-button");
+      window.gapi.signin2.render("login-button", {
+        longtitle: true,
+        theme: "dark",
+        onsuccess: this.getProfileInfo
+      });
     });
   }
 
@@ -40,9 +50,7 @@ class App extends React.Component {
 
   signOut() {
     let currAuthInstance = window.gapi.auth2.getAuthInstance();
-    currAuthInstance.signOut().then(() => {
-      currAuthInstance.disconnect();
-    });
+    currAuthInstance.signOut();
   }
 
   renderAuthButton() {

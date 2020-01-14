@@ -8,7 +8,7 @@ const SessionReducer = (prevState = initialState, action) => {
   Object.freeze(prevState);
   switch (action.type) {
     case RECEIVE_TEST_INFO:
-      return action.incomingData.data;
+      return action.serverResponse;
     default:
       return prevState;
   }

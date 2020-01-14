@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { testAction } from "../actions/session_actions";
+import { sendGoogleToken } from "../actions/session_actions";
 import App from "./app";
 
 const mapStateToProps = state => ({
@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  testAction: () => dispatch(testAction())
+  sendToken: token => dispatch(sendGoogleToken(token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

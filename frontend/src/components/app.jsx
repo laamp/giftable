@@ -2,9 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 // import { Switch } from "react-router-dom";
 
-// for test
-// import * as APIUtil from "../util/session_api_util";
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -15,8 +12,7 @@ class App extends React.Component {
 
     this.toggleAuthStatus = this.toggleAuthStatus.bind(this);
     this.signOut = this.signOut.bind(this);
-
-    window.testRoute = this.props.testAction;
+    this.getProfileInfo = this.getProfileInfo.bind(this);
   }
 
   componentDidMount() {
@@ -33,15 +29,12 @@ class App extends React.Component {
   }
 
   getProfileInfo(user) {
-    // const profile = user.getBasicProfile();
-    // console.log(`Name: ${profile.getName()}, Email: ${profile.getEmail()}`);
-    // console.log(`ID token: ${user.getAuthResponse().id_token}`);
+    const profile = user.getBasicProfile();
+    console.log(`Name: ${profile.getName()}, Email: ${profile.getEmail()}`);
+    console.log(`ID token: ${user.getAuthResponse().id_token}`);
     // for test
-    // const token = user.getAuthResponse().id_token;
-    // APIUtil.sendAuthToken(token);
-    // APIUtil.foo()
-    //   .then(result => console.log(result))
-    //   .catch(err => console.log(err));
+    const token = user.getAuthResponse().id_token;
+    this.props.sendToken(token);
   }
 
   renderGoogleButton() {

@@ -1,6 +1,6 @@
 from app import app
 from app.models import User, GiftList
-from flask import jsonify
+from flask import jsonify, request
 from flask_login import (
     LoginManager,
     current_user,
@@ -26,15 +26,9 @@ def get_all_users():
 
 
 # for test
-# @app.route("/api/users/oauth", methods=["POST"])
-# def receive_auth_token():
-#     print(request.data)
-#     return request.data
-
-
-@app.route("/test")
-def test_route():
-    return jsonify({"message": "Hey, it worked!"})
+@app.route("/api/users/oauth", methods=["POST"])
+def receive_auth_token():
+    return request.json
 
 
 @app.route("/api/gift_lists")

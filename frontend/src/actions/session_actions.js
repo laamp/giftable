@@ -7,7 +7,7 @@ const receiveTestInfo = response => ({
   serverResponse: response
 });
 
-export const sendGoogleToken = token => dispatch =>
-  APIUtil.sendGoogleToken(token)
+export const sendGoogleToken = userInfo => dispatch =>
+  APIUtil.sendGoogleToken(userInfo)
     .then(response => dispatch(receiveTestInfo(response.data)))
-    .catch(err => console.log(err));
+    .catch(err => console.log(err.response.data));

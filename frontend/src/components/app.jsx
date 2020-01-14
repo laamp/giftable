@@ -30,11 +30,15 @@ class App extends React.Component {
 
   getProfileInfo(user) {
     const profile = user.getBasicProfile();
-    console.log(`Name: ${profile.getName()}, Email: ${profile.getEmail()}`);
-    console.log(`ID token: ${user.getAuthResponse().id_token}`);
-    // for test
-    const token = user.getAuthResponse().id_token;
-    this.props.sendToken(token);
+    let userInfo = {
+      id: profile.getId(),
+      email: profile.getEmail(),
+      name: profile.getName(),
+      photo: profile.getImageUrl(),
+      idToken: user.getAuthResponse().id_token
+    };
+
+    this.props.sendUserInfo(userInfo);
   }
 
   renderGoogleButton() {

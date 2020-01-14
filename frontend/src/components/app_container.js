@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  sendToken: token => dispatch(sendGoogleToken(token))
+  sendUserInfo: userInfo => dispatch(sendGoogleToken(userInfo))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

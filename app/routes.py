@@ -1,6 +1,7 @@
+import os
 from app import app
 from app.models import User, GiftList
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from flask_login import (
     LoginManager,
     current_user,
@@ -8,6 +9,8 @@ from flask_login import (
     login_user,
     logout_user,
 )
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 
 @app.route("/")
@@ -25,10 +28,21 @@ def get_all_users():
     return jsonify(results)
 
 
-# for test
 @app.route("/api/users/oauth", methods=["POST"])
 def receive_auth_token():
-    return request.json
+    try:
+        idinfo = id_token.verify_oauth2_token(
+            request.json["idToken"], requests.Request(), os.environ["GOOGLE_CLIENT_ID"]
+        )
+
+        if idinfo["iss"] not in ["accounts.google.com", "https://accounts.google.com"]:
+            raise ValueError("Incorrect issuer")
+
+        userid = idinfo["sub"]
+    except ValueError:
+        return make_response(jsonify({"authentication": "Token unauthorized"}), 400)
+
+    return make_response(jsonify({"authentication": "Token validated!"}), 200)
 
 
 @app.route("/api/gift_lists")

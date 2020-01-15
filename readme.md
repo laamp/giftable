@@ -31,6 +31,7 @@
 ### Front-end setup
 
 - from within `frontend` run `npm install`
+- from root directory run `npm run frontend` to test out front-end
 
 ### Test front-end and back-end
 

@@ -1,5 +1,6 @@
 from datetime import datetime
 from app import db
+from flask_login import UserMixin
 
 
 users_to_giftlists = db.Table(
@@ -10,11 +11,12 @@ users_to_giftlists = db.Table(
 )
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True)
+    username = db.Column(db.String(64))
     email = db.Column(db.String(128), index=True, unique=True)
-    password = db.Column(db.String(256))
+    google_id = db.Column(db.String(128), index=True, unique=True)
+    google_image = db.Column(db.String(256))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     gift_lists = db.relationship(

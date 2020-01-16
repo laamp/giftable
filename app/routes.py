@@ -14,6 +14,9 @@ from google.auth.transport import requests
 
 @app.route("/")
 def is_user_authenticated():
+    if current_user.is_authenticated:
+        return jsonify({"current_user": current_user.get_id()})
+
     return jsonify({"test_object": "Hello, world."})
 
 

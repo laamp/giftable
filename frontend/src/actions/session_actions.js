@@ -1,13 +1,13 @@
 import * as APIUtil from "../util/session_api_util";
 
-export const RECEIVE_TEST_INFO = "RECEIVE_TEST_INFO";
+export const RECEIVE_LOGIN = "RECEIVE_LOGIN";
 
-const receiveTestInfo = response => ({
-  type: RECEIVE_TEST_INFO,
-  serverResponse: response
+const receiveLogin = currentUser => ({
+  type: RECEIVE_LOGIN,
+  currentUser
 });
 
-export const sendGoogleToken = userInfo => dispatch =>
-  APIUtil.sendGoogleToken(userInfo)
-    .then(response => dispatch(receiveTestInfo(response.data)))
+export const login = user => dispatch =>
+  APIUtil.login(user)
+    .then(response => dispatch(receiveLogin(response.data)))
     .catch(err => console.log(err.response.data));

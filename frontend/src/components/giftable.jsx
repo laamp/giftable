@@ -1,13 +1,12 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
-// import App from "./app";
-import AppContainer from "./app_container";
+import App from "./app";
 
 const Giftable = ({ store }) => (
   <Provider store={store}>
     <HashRouter>
-      <AppContainer />
+      <App />
     </HashRouter>
   </Provider>
 );

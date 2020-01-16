@@ -1,4 +1,3 @@
 import axios from "axios";
 
-export const sendGoogleToken = userInfo =>
-  axios.post("/api/users/login", userInfo);
+export const login = user => axios.post("/api/users/login", user);

@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from app import db, login
 from flask_login import UserMixin
 
 
@@ -9,6 +9,11 @@ users_to_giftlists = db.Table(
     db.Column("list_id", db.Integer, db.ForeignKey("gift_list.id"), primary_key=True),
     db.Column("added_on", db.DateTime, default=datetime.utcnow),
 )
+
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 class User(UserMixin, db.Model):

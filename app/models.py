@@ -36,9 +36,10 @@ class User(UserMixin, db.Model):
 
     def to_json(self):
         return {
-            "username": self.username,
+            "name": self.username,
             "email": self.email,
-            "created_at": self.created_at,
+            "googleId": self.google_id,
+            "googleImg": self.google_image,
         }
 
 

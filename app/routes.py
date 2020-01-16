@@ -62,22 +62,10 @@ def login_with_google():
     except ValueError:
         return make_response(jsonify({"session": "Token not authorized"}), 400)
 
-    return make_response(
-        jsonify(
-            {
-                "currentUser": {
-                    "googleId": current_user.google_id,
-                    "googleImg": current_user.google_image,
-                    "name": current_user.username,
-                    "email": current_user.email,
-                }
-            }
-        ),
-        200,
-    )
+    return make_response(jsonify(current_user.to_json()), 200)
 
 
-@app.route("/api/users/logout")
+@app.route("/api/users/logout", methods=["DELETE"])
 def logout():
     logout_user()
     return make_response(jsonify({"session": "User logged out"}), 200)

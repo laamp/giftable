@@ -21,5 +21,9 @@ const receiveLogout = () => ({
 
 export const logout = () => dispatch =>
   APIUtil.logout()
-    .then(() => dispatch(receiveLogout()))
+    .then(() => {
+      APIUtil.setAuthToken(false);
+      localStorage.removeItem("authtoken");
+      dispatch(receiveLogout());
+    })
     .catch(err => console.log(err.response.data));

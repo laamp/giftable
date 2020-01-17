@@ -1,12 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { setAuthToken } from "../../util/session_api_util";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
     this.signInCallback = this.signInCallback.bind(this);
-    this.signOut = this.signOut.bind(this);
     this.getProfileInfo = this.getProfileInfo.bind(this);
   }
 
@@ -33,6 +33,9 @@ class Home extends React.Component {
       idToken: user.getAuthResponse().id_token
     };
 
+    setAuthToken(userInfo.idToken);
+    localStorage.setItem("authtoken", userInfo.idToken);
+
     this.props.login(userInfo);
   }
 
@@ -48,11 +51,6 @@ class Home extends React.Component {
 
   signInCallback(signedIn) {
     if (!signedIn) this.renderGoogleButton();
-  }
-
-  signOut() {
-    let currAuthInstance = window.gapi.auth2.getAuthInstance();
-    currAuthInstance.signOut();
   }
 
   renderAuthButton() {

@@ -11,27 +11,9 @@ from flask_login import (
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-
-@app.route("/")
-def is_user_authenticated():
-    if current_user.is_authenticated:
-        return jsonify({"current_user": current_user.get_id()})
-
-    return jsonify({"test_object": "Hello, world."})
-
-
-@app.route("/api/users")
-def get_all_users():
-    users = User.query.all()
-    results = []
-    for user in users:
-        results.append(user.to_json())
-
-    return jsonify(results)
-
-
+# session routes
 @app.route("/api/users/login", methods=["POST"])
-def login_with_google():
+def login():
     try:
         idinfo = id_token.verify_oauth2_token(
             request.json["idToken"], requests.Request(), os.environ["GOOGLE_CLIENT_ID"]
@@ -45,6 +27,7 @@ def login_with_google():
 
         # check if this user is already present in the database
         user = User.query.filter_by(google_id=userid).first()
+
         # if user doesn't exist, make a new user
         if user is None or userid != request.json["id"]:
             new_user = User(
@@ -71,6 +54,27 @@ def logout():
     return make_response(jsonify({"session": "User logged out"}), 200)
 
 
+@app.route("/api/users/guest", methods=["POST"])
+def guest_login():
+    guest = User.query.filter_by(username="Guest").first()
+
+    if guest is None:
+        new_guest = User(
+            email="guest@giftable.com",
+            username="Guest",
+            google_id="Not a Google account",
+            google_img="Not applicable",
+        )
+        db.session.add(new_guest)
+        db.session.commit()
+        guest = new_guest
+
+    login_user(guest)
+
+    return make_response(jsonify(current_user.to_json()), 200)
+
+
+# list routes
 @app.route("/api/gift_lists")
 def get_all_lists():
     lists = GiftList.query.all()

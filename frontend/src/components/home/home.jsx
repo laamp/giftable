@@ -1,13 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { setAuthToken } from "../../util/session_api_util";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.signInCallback = this.signInCallback.bind(this);
-    this.getProfileInfo = this.getProfileInfo.bind(this);
+    this.guestLogin = this.guestLogin.bind(this);
+    this.googleLoginSuccess = this.googleLoginSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -18,12 +17,10 @@ class Home extends React.Component {
       });
 
       this.renderGoogleButton();
-
-      this.auth2.isSignedIn.listen(this.signInCallback);
     });
   }
 
-  getProfileInfo(user) {
+  googleLoginSuccess(user) {
     const profile = user.getBasicProfile();
     let userInfo = {
       id: profile.getId(),
@@ -33,10 +30,22 @@ class Home extends React.Component {
       idToken: user.getAuthResponse().id_token
     };
 
-    setAuthToken(userInfo.idToken);
     localStorage.setItem("authtoken", userInfo.idToken);
 
     this.props.login(userInfo);
+  }
+
+  guestLogin() {
+    this.props.guestLogin();
+    localStorage.setItem(
+      "guestLoggedIn",
+      JSON.stringify({
+        email: "guest@giftable.com",
+        name: "Guest",
+        google_id: "Not a Google account",
+        google_img: "Not applicable"
+      })
+    );
   }
 
   renderGoogleButton() {
@@ -44,20 +53,16 @@ class Home extends React.Component {
       window.gapi.signin2.render("login-button", {
         longtitle: true,
         theme: "dark",
-        onsuccess: this.getProfileInfo
+        onsuccess: this.googleLoginSuccess
       });
     });
-  }
-
-  signInCallback(signedIn) {
-    if (!signedIn) this.renderGoogleButton();
   }
 
   renderAuthButton() {
     return (
       <>
         <p>You ain't signed in. Click the button to do that.</p>
-        <button id="login-button">Login with Google</button>
+        <div id="login-button">Login with Google</div>
       </>
     );
   }
@@ -68,6 +73,8 @@ class Home extends React.Component {
         <h1>Title goes here</h1>
 
         {this.renderAuthButton()}
+
+        <button onClick={this.guestLogin}>Guest</button>
       </div>
     );
   }

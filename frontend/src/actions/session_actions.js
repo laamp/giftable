@@ -22,8 +22,13 @@ const receiveLogout = () => ({
 export const logout = () => dispatch =>
   APIUtil.logout()
     .then(() => {
-      APIUtil.setAuthToken(false);
-      localStorage.removeItem("authtoken");
+      localStorage.clear();
       dispatch(receiveLogout());
     })
+    .catch(err => console.log(err.response.data));
+
+// guest log in
+export const guest = () => dispatch =>
+  APIUtil.guestLogin()
+    .then(response => dispatch(receiveLogin(response.data)))
     .catch(err => console.log(err.response.data));

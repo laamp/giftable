@@ -1,7 +1,7 @@
 import os
-from app import app, db
-from app.models import User, GiftList
-from flask import jsonify, request, make_response
+from app import db
+from app.models.user import User
+from flask import jsonify, request, make_response, Blueprint
 from flask_login import (
     current_user,
     login_required,
@@ -11,8 +11,10 @@ from flask_login import (
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-# session routes
-@app.route("/api/users/login", methods=["POST"])
+users_blueprint = Blueprint("users_blueprint", __name__, url_prefix="/api/users")
+
+
+@users_blueprint.route("/login", methods=["POST"])
 def login():
     try:
         idinfo = id_token.verify_oauth2_token(
@@ -48,13 +50,13 @@ def login():
     return make_response(jsonify(current_user.to_json()), 200)
 
 
-@app.route("/api/users/logout", methods=["DELETE"])
+@users_blueprint.route("/logout", methods=["DELETE"])
 def logout():
     logout_user()
     return make_response(jsonify({"session": "User logged out"}), 200)
 
 
-@app.route("/api/users/guest", methods=["POST"])
+@users_blueprint.route("/guest", methods=["POST"])
 def guest_login():
     guest = User.query.filter_by(username="Guest").first()
 
@@ -72,14 +74,3 @@ def guest_login():
     login_user(guest)
 
     return make_response(jsonify(current_user.to_json()), 200)
-
-
-# list routes
-@app.route("/api/gift_lists")
-def get_all_lists():
-    lists = GiftList.query.all()
-    results = []
-    for list in lists:
-        results.append(list.to_json())
-
-    return jsonify(results)

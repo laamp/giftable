@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (localStorage.getItem("guestLoggedIn")) {
     const guestInfo = JSON.parse(localStorage.getItem("guestLoggedIn"));
-    console.log(guestInfo);
     const preloadedState = {
       session: {
         isAuthenticated: true,
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       googleImg: decodedUser.picture,
       name: decodedUser.name
     };
-    console.log(formattedUser);
+
     const preloadedState = {
       session: { isAuthenticated: true, currentUser: formattedUser }
     };

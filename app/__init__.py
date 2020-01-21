@@ -13,7 +13,7 @@ login = LoginManager(app)
 from app.models.user import User
 from app.models.gift_list import GiftList
 from app.models.gift import Gift
-from app.models import users_to_giftlists
+from app.models import gift_list_subs
 
 from app.routes.users import users_blueprint
 from app.routes.gift_lists import gift_lists_blueprint

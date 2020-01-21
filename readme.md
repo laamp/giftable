@@ -21,8 +21,8 @@
 
 - set `FLASK_APP` environment variable with `export FLASK_APP=giftable.py`
   - or install `pip install python-dotenv`
-  - create file `.flaskenv`
-  - add line `FLASK_APP=giftable.py` to `.flaskenv`
+  - create file `.env`
+  - add line `FLASK_APP=giftable.py` to `.env`
 - run `pip install flask-sqlalchemy` to install ORM
 - run `pip install flask-migrate` to install db migration framework
 - run `flask db migrate` to generate any migrations, then `flask db upgrade` to apply migrations

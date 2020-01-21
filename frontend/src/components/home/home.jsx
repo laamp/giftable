@@ -43,7 +43,7 @@ class Home extends React.Component {
         email: "guest@giftable.com",
         name: "Guest",
         google_id: "Not a Google account",
-        google_img: "Not applicable"
+        google_image: "Not applicable"
       })
     );
   }

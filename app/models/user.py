@@ -1,7 +1,7 @@
 from datetime import datetime
 from app import db, login
 from flask_login import UserMixin
-from app.models import users_to_giftlists
+from app.models import gift_list_subs
 
 
 @login.user_loader
@@ -17,20 +17,37 @@ class User(UserMixin, db.Model):
     google_image = db.Column(db.String(256))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    gift_lists = db.relationship(
+    ## Users -> Gift Lists
+    # lists that this user created
+    created_lists = db.relationship("GiftList", backref="creator", lazy=True)
+    # lists that this user is following
+    followed_lists = db.relationship(
         "GiftList",
-        secondary=users_to_giftlists,
+        secondary=gift_list_subs,
         lazy="subquery",
-        backref=db.backref("users", lazy=True),
+        backref=db.backref("followers", lazy=True),
+    )
+
+    ## Users -> Gifts
+    # gifts this user created
+    created_gifts = db.relationship(
+        "Gift", backref="creator", lazy=True, foreign_keys="[Gift.creator_id]"
+    )
+    # gifts intended for this user
+    assigned_gifts = db.relationship(
+        "Gift", backref="recipient", lazy=True, foreign_keys="[Gift.recipient_id]"
     )
 
     def __repr__(self):
-        return "<User {}>".format(self.username)
+        return f"<User id={self.id} username={self.username} email={self.email}>"
 
     def to_json(self):
         return {
-            "name": self.username,
-            "email": self.email,
-            "googleId": self.google_id,
-            "googleImg": self.google_image,
+            self.id: {
+                "id": self.id,
+                "username": self.username,
+                "email": self.email,
+                "google_id": self.google_id,
+                "google_image": self.google_image,
+            }
         }

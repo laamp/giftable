@@ -65,7 +65,7 @@ def guest_login():
             email="guest@giftable.com",
             username="Guest",
             google_id="Not a Google account",
-            google_img="Not applicable",
+            google_image="Not applicable",
         )
         db.session.add(new_guest)
         db.session.commit()

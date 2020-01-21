@@ -7,16 +7,22 @@ class Gift(db.Model):
     label = db.Column(db.String(128))
     url = db.Column(db.String(256))
     purchased = db.Column(db.Boolean, default=False)
-    recipient_id = db.Column(db.Integer, db.ForeignKey("user.id"), index=True)
-    creator_id = db.Column(db.Integer, db.ForeignKey("user.id"), index=True)
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
-    # gift_list =
+    ## Gifts -> Users
+    # user that created this gift
+    creator_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    # user this gift is intended for
+    recipient_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    ## Gifts -> Gift Lists
+    # list that the gift belongs to
+    list_id = db.Column(db.Integer, db.ForeignKey("gift_list.id"), nullable=False)
 
     def __repr__(self):
-        return "<Gift id={} label={} purchased={}>".format(
-            self.id, self.label, self.purchased
-        )
+        return f"<Gift id={self.id} label={self.label} url={self.url} \
+            purchased={self.purchased} creator_id={self.creator_id} \
+            recipient_id={self.recipient_id} list_id={self.list_id}"
 
     def to_json(self):
         return {
@@ -25,5 +31,8 @@ class Gift(db.Model):
                 "label": self.label,
                 "url": self.url,
                 "purchased": self.purchased,
+                "creator_id": self.creator_id,
+                "recipient_id": self.recipient_id,
+                "list_id": self.list_id,
             }
         }

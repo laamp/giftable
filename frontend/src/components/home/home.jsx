@@ -5,7 +5,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.guestLogin = this.guestLogin.bind(this);
     this.googleLoginSuccess = this.googleLoginSuccess.bind(this);
   }
 
@@ -35,19 +34,6 @@ class Home extends React.Component {
     this.props.login(userInfo);
   }
 
-  guestLogin() {
-    this.props.guestLogin();
-    localStorage.setItem(
-      "guestLoggedIn",
-      JSON.stringify({
-        email: "guest@giftable.com",
-        name: "Guest",
-        google_id: "Not a Google account",
-        google_image: "Not applicable"
-      })
-    );
-  }
-
   renderGoogleButton() {
     window.gapi.load("signin2", () => {
       window.gapi.signin2.render("login-button", {
@@ -74,7 +60,7 @@ class Home extends React.Component {
 
         {this.renderAuthButton()}
 
-        <button onClick={this.guestLogin}>Guest</button>
+        <button onClick={this.props.guestLogin}>Guest</button>
       </div>
     );
   }

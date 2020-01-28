@@ -21,6 +21,6 @@ class GiftList(db.Model):
 
     def to_json(self):
         return {
-            self.id: {"id": self.id, "title": self.title, "creator_id": self.creator_id}
+            self.id: {"id": self.id, "title": self.title, "creatorId": self.creator_id}
         }
 

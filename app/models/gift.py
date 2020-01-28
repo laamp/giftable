@@ -31,8 +31,8 @@ class Gift(db.Model):
                 "label": self.label,
                 "url": self.url,
                 "purchased": self.purchased,
-                "creator_id": self.creator_id,
-                "recipient_id": self.recipient_id,
-                "list_id": self.list_id,
+                "creatorId": self.creator_id,
+                "recipientId": self.recipient_id,
+                "listId": self.list_id,
             }
         }

@@ -47,7 +47,7 @@ class User(UserMixin, db.Model):
                 "id": self.id,
                 "username": self.username,
                 "email": self.email,
-                "google_id": self.google_id,
-                "google_image": self.google_image,
+                "googleId": self.google_id,
+                "googleImage": self.google_image,
             }
         }

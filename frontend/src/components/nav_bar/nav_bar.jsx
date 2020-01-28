@@ -29,10 +29,10 @@ class NavBar extends React.Component {
     return (
       <div className="nav-bar">
         <img
-          src={this.props.currentUser.googleImg}
-          alt={this.props.currentUser.name}
+          src={this.props.currentUser.googleImage}
+          alt={this.props.currentUser.username}
         />
-        <p>Hello, {this.props.currentUser.name}</p>
+        <p>Hello, {this.props.currentUser.username}</p>
         <button onClick={this.signOut}>Log out</button>
       </div>
     );

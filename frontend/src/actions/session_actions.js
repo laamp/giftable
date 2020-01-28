@@ -11,7 +11,10 @@ const receiveLogin = currentUser => ({
 
 export const login = user => dispatch =>
   APIUtil.login(user)
-    .then(response => dispatch(receiveLogin(response.data)))
+    .then(response => {
+      dispatch(receiveLogin(response.data));
+      localStorage.setItem("userLoggedIn", JSON.stringify(response.data));
+    })
     .catch(err => console.log(err.response.data));
 
 // log out
@@ -30,5 +33,8 @@ export const logout = () => dispatch =>
 // guest log in
 export const guest = () => dispatch =>
   APIUtil.guestLogin()
-    .then(response => dispatch(receiveLogin(response.data)))
+    .then(response => {
+      dispatch(receiveLogin(response.data));
+      localStorage.setItem("guestLoggedIn", JSON.stringify(response.data));
+    })
     .catch(err => console.log(err.response.data));

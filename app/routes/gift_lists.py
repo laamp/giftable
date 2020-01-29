@@ -8,11 +8,22 @@ gift_lists_blueprint = Blueprint(
 )
 
 
-@gift_lists_blueprint.route("/")
+@gift_lists_blueprint.route("/", methods=["GET"])
 def get_all_lists():
-    lists = GiftList.query.all()
+    lists = GiftList.query.filter_by(creator_id=request.json["creatorId"])
     results = []
     for list in lists:
         results.append(list.to_json())
 
-    return jsonify(results)
+    return make_response(jsonify(results), 200)
+
+
+@gift_lists_blueprint.route("/", methods=["POST"])
+def create_gift_list():
+    new_gift_list = GiftList(
+        title=request.json["title"], creator_id=request.json["creatorId"]
+    )
+    db.session.add(new_gift_list)
+    db.session.commit()
+
+    return make_response(jsonify(new_gift_list.to_json()), 200)

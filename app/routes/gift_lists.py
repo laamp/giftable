@@ -8,17 +8,23 @@ gift_lists_blueprint = Blueprint(
 )
 
 
-@gift_lists_blueprint.route("/", methods=["GET"])
-def get_all_lists():
-    lists = GiftList.query.filter_by(creator_id=request.json["creatorId"])
-    results = []
-    for list in lists:
-        results.append(list.to_json())
+@gift_lists_blueprint.route("/user/<creatorid>", methods=["GET"])
+def get_all_lists(creatorid):
+    try:
+        gift_lists = GiftList.query.filter_by(creator_id=creatorid)
+        results = {}
+        for gift_list in gift_lists:
+            results = {**results, **gift_list.to_json()}
+
+    except:
+        return make_response(
+            jsonify({"gift_lists": "Could not retrieve gift lists"}), 404
+        )
 
     return make_response(jsonify(results), 200)
 
 
-@gift_lists_blueprint.route("/", methods=["POST"])
+@gift_lists_blueprint.route("", methods=["POST"])
 def create_gift_list():
     new_gift_list = GiftList(
         title=request.json["title"], creator_id=request.json["creatorId"]

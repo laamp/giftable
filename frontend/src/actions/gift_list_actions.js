@@ -15,7 +15,14 @@ const receiveGiftLists = allLists => ({
   allLists
 });
 
-// export const getAllLists = id => dispatch =>
-//     APIUtil.getGiftLists(id)
-//     .then(response => dispatch(receiveGiftLists(response.data)))
-//     .catch
+// action to retrieve all lists from a particular user
+export const getAllLists = id => dispatch =>
+  APIUtil.getGiftLists(id)
+    .then(response => dispatch(receiveGiftLists(response.data)))
+    .catch(err => console.log(err.response.data));
+
+// action to create a list under the currently logged in user
+export const createList = (title, id) => dispatch =>
+  APIUtil.createGiftList(title, id)
+    .then(response => dispatch(receiveGiftList(response.data)))
+    .catch(err => console.log(err.response.data));

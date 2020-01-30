@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import GiftList from "./gift_list/gift_list";
 
 class GiftLists extends React.Component {
   componentDidMount() {
@@ -12,7 +13,7 @@ class GiftLists extends React.Component {
         <h3>Gift Lists</h3>
         <ul>
           {Object.values(this.props.giftLists).map((list, idx) => (
-            <li key={`gift_list_${idx}`}>{list.title}</li>
+            <GiftList list={list} key={`gift_list_${idx}`} />
           ))}
         </ul>
       </div>

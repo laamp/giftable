@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { createList, getAllLists } from "../../actions/gift_list_actions";
+import { getAllLists } from "../../actions/gift_list_actions";
 import GiftLists from "./gift_lists";
 
 const mSTP = state => ({
@@ -8,7 +8,6 @@ const mSTP = state => ({
 });
 
 const mDTP = dispatch => ({
-  createList: (title, id) => dispatch(createList(title, id)),
   getAllLists: id => dispatch(getAllLists(id))
 });
 

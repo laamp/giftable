@@ -51,13 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const decodedUser = jwt_decode(token);
     const currentTime = Math.floor(Date.now() / 1000);
 
+    store = ConfigureStore(preloadedState);
+
     if (decodedUser.exp < currentTime) {
       localStorage.clear();
       store.dispatch(logout());
       window.location.href = "/";
     }
-
-    store = ConfigureStore(preloadedState);
   } else {
     store = ConfigureStore();
   }
